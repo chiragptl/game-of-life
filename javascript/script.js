@@ -1,3 +1,4 @@
+
 // code for taking input clicks from user for alive cells
 let isgenerationstop = false;
 let generationcount = 0;
