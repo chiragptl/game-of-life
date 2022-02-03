@@ -18,9 +18,11 @@ startgen.addEventListener('click', gameOfLife);
 //logic of generating next generation
 function gameOfLife(){ 
     if(isgenerationstop == true){
-        alert("Life generation has been stoped");
+        document.querySelector('.info').innerText = "Life generation has been stoped\nGeneration No.: "+ generationcount;
         isgenerationstop=false;
     }else{
+        generationcount += 1;
+        document.querySelector('.info').innerText = "Generation No.: "+ generationcount;
         let currentstate = [];
         for (let index = 0; index < 10; index++) {
             currentstate.push(new Array(10).fill(""));
