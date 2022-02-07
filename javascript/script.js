@@ -1,6 +1,8 @@
 
 // code for taking input clicks from user for alive cells
 let isgenerationstop = false;
+let isgenerationreset = false;
+let Isallcelldead = false;
 let generationcount = 0;
 let boxes = document.getElementsByClassName("box");
 Array.from(boxes).forEach(element =>{
@@ -18,8 +20,10 @@ startgen.addEventListener('click', gameOfLife);
 //logic of generating next generation
 function gameOfLife(){ 
     if(isgenerationstop == true){
-        document.querySelector('.info').innerText = "Life generation has been stoped\nGeneration No.: "+ generationcount;
         isgenerationstop=false;
+    }
+    else if(isgenerationreset == true){
+        isgenerationreset = false;
     }else{
         generationcount += 1;
         document.querySelector('.info').innerText = "Generation No.: "+ generationcount;
@@ -102,6 +106,7 @@ function gameOfLife(){
 
             element.innerHTML = currentstate[rowcheck][colcheck];
             element.setAttribute("style","background : black;");
+            // element.className = 'black-background';
             if(colcheck <= 8){
                 colcheck += 1;
             }
@@ -116,7 +121,19 @@ function gameOfLife(){
 
 stopgen.addEventListener('click',stopgeneration);
 
-
 function stopgeneration(){
     isgenerationstop = true;
+    document.querySelector('.info').innerText = "Life generation has been stoped\nGeneration No.: "+ generationcount;
+}
+
+resetgen.addEventListener('click',resetgeneration);
+
+function resetgeneration(){
+    generationcount = 0;
+    isgenerationreset = true;
+    let boxtext = document.querySelectorAll('.boxtext');
+    Array.from(boxtext).forEach(element => {
+        element.innerHTML = "";
+    });
+    document.querySelector('.info').innerText = "Life generation has been reseted\nGeneration No.: "+ generationcount;
 }
