@@ -20,12 +20,14 @@ startgen.addEventListener('click', gameOfLife);
 //logic of generating next generation
 function gameOfLife(){ 
     if(isgenerationstop == true){
-        isgenerationstop=false;
+        isgenerationstop = false;
     }
     else if(isgenerationreset == true){
         isgenerationreset = false;
+    }
+    else if(Isallcelldead == true){
+        Isallcelldead = false;
     }else{
-        generationcount += 1;
         document.querySelector('.info').innerText = "Generation No.: "+ generationcount;
         let currentstate = [];
         for (let index = 0; index < 10; index++) {
@@ -52,7 +54,7 @@ function gameOfLife(){
         let rowcheck = 0;
         let colcheck = 0;
 
-        let boxtexts = document.querySelectorAll('.boxtext');
+        const boxtexts = document.querySelectorAll('.boxtext');
         for(var i=0;i<boxtexts.length;i++)
         {
             if(boxtexts[i].innerHTML === "A"){
@@ -93,17 +95,27 @@ function gameOfLife(){
             }
         }
         
+        let deadcellcounter = 0;
         for (let row = 0; row < totalrowcells; row++) {
             for (let col = 0; col < totalcolumncells; col++) {
-                currentstate[row][col] = nextgen[row][col];
+                if(nextgen[row][col] === ""){
+                    deadcellcounter += 1;
+                }
+                else{
+                    currentstate[row][col] = nextgen[row][col];
+                }
             }
+        }
+
+        if(deadcellcounter === (totalrowcells * totalcolumncells)){
+            Isallcelldead = true;
+            document.querySelector('.info').innerText = "No life generation evolve after \nGeneration No.: "+ generationcount;
         }
 
         rowcheck = 0;
         colcheck = 0;
         let boxtext = document.querySelectorAll('.boxtext');
         Array.from(boxtext).forEach(element => {
-
             element.innerHTML = currentstate[rowcheck][colcheck];
             element.setAttribute("style","background : black;");
             // element.className = 'black-background';
@@ -115,6 +127,7 @@ function gameOfLife(){
                 colcheck = 0;
             }
         });
+        generationcount += 1;
         setTimeout(gameOfLife, 1000);
     }
 }
